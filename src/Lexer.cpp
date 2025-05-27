@@ -1,6 +1,6 @@
 // Created by Anei Markovič 19.05.2024
 #include "Lexer.hpp"
-//Metoda ustvari automat oz. tabelo povezav
+// Metoda ustvari automat oz. tabelo povezav
 void Lexer::initAutomata()
 {
     for (int i = 0; i <= maxState; i++)
@@ -11,13 +11,30 @@ void Lexer::initAutomata()
         }
     }
 
+    for (int i = 'A'; i <= 'Z'; i++)
+    {
+        automata[0][i] = automata[4][i] = 4;
+    }
+    for (int i = 'a'; i <= 'z'; i++)
+    {
+        automata[0][i] = automata[4][i] = 4;
+    }
+
     automata[0]['F'] = 19;
     automata[19]['O'] = 20;
     automata[20]['R'] = 21;
 
+    automata[19]['U'] = 235;
+    automata[235]['N'] = 236;
+    automata[236]['C'] = 237;
+    automata[237]['T'] = 238;
+    automata[238]['I'] = 239;
+    automata[239]['O'] = 240;
+    automata[240]['N'] = 241;
+
     for (int i = 'A'; i <= 'Z'; i++)
     {
-        if (i != 'O')
+        if (i != 'O' && i != 'U')
         {
             automata[19][i] = 4;
         }
@@ -41,7 +58,7 @@ void Lexer::initAutomata()
 
     for (int i = 'A'; i <= 'Z'; i++)
     {
-        if (i != 'E' || i != 'N' || i != 'O')
+        if (i != 'E' && i != 'N' && i != 'O')
         {
             automata[22][i] = 4;
         }
@@ -61,7 +78,7 @@ void Lexer::initAutomata()
 
     for (int i = 'a'; i <= 'Z'; i++)
     {
-        if (i != 'N' || i != 'L')
+        if (i != 'N' && i != 'L')
         {
             automata[27][i] = 4;
         }
@@ -87,7 +104,7 @@ void Lexer::initAutomata()
 
     for (int i = 'A'; i <= 'Z'; i++)
     {
-        if (i != 'O' || i != 'A' || i != 'I')
+        if (i != 'O' && i != 'A' && i != 'I')
         {
             automata[30][i] = 4;
         }
@@ -101,9 +118,15 @@ void Lexer::initAutomata()
     automata[67]['E'] = 68;
     automata[68]['A'] = 69;
 
+    automata[63]['O'] = 227;
+    automata[227]['U'] = 228;
+    automata[228]['B'] = 229;
+    automata[229]['L'] = 230;
+    automata[230]['E'] = 231;
+
     for (int i = 'A'; i <= 'Z'; i++)
     {
-        if (i != 'E')
+        if (i != 'E' && i != 'O')
         {
             automata[63][i] = 4;
         }
@@ -117,7 +140,7 @@ void Lexer::initAutomata()
 
     for (int i = 'A'; i <= 'Z'; i++)
     {
-        if (i != 'H')
+        if (i != 'U')
         {
             automata[70][i] = 4;
         }
@@ -177,9 +200,13 @@ void Lexer::initAutomata()
     automata[104]['N'] = 105;
     automata[105]['G'] = 106;
 
+    automata[97]['I'] = 232;
+    automata[232]['N'] = 233;
+    automata[233]['E'] = 234;
+
     for (int i = 'A'; i <= 'Z'; i++)
     {
-        if (i != 'O')
+        if (i != 'O' && i != 'I')
         {
             automata[97][i] = 4;
         }
@@ -215,6 +242,9 @@ void Lexer::initAutomata()
     automata[121]['R'] = 122;
     automata[122]['M'] = 123;
 
+    automata[118]['N'] = 242;
+    automata[242]['T'] = 243;
+
     automata[113]['O'] = 124;
 
     automata[124]['L'] = 125;
@@ -249,7 +279,7 @@ void Lexer::initAutomata()
 
     for (int i = 'A'; i <= 'Z'; i++)
     {
-        if (i != 'R' || i != 'U' || i != 'O' || i != 'A' || i != 'L')
+        if (i != 'R' && i != 'U' && i != 'O' && i != 'A' && i != 'L')
         {
             automata[113][i] = 4;
         }
@@ -280,7 +310,7 @@ void Lexer::initAutomata()
 
     for (int i = 'A'; i <= 'Z'; i++)
     {
-        if (i != 'I' || i != 'E')
+        if (i != 'I' && i != 'E')
         {
             automata[149][i] = 4;
         }
@@ -320,7 +350,7 @@ void Lexer::initAutomata()
 
     for (int i = 'A'; i <= 'Z'; i++)
     {
-        if (i != 'T' || i != 'U' || i != 'H' || i != 'P')
+        if (i != 'T' && i != 'U' && i != 'H' && i != 'P')
         {
             automata[168][i] = 4;
         }
@@ -333,9 +363,11 @@ void Lexer::initAutomata()
     automata[198]['E'] = 199;
     automata[199]['L'] = 200;
 
+    automata[195]['O'] = 244;
+
     for (int i = 'A'; i <= 'Z'; i++)
     {
-        if (i != 'U')
+        if (i != 'U' && i != 'O')
         {
             automata[195][i] = 4;
         }
@@ -375,22 +407,13 @@ void Lexer::initAutomata()
 
     for (int i = 'A'; i <= 'Z'; i++)
     {
-        if (i != 'A' || i != 'E')
+        if (i != 'A' && i != 'E')
         {
             automata[212][i] = 4;
         }
     }
 
     automata[0]['#'] = automata[2]['#'] = 2;
-
-    for (int i = 'A'; i <= 'Z'; i++)
-    {
-        automata[0][i] = automata[4][i] = 4;
-    }
-    for (int i = 'a'; i <= 'z'; i++)
-    {
-        automata[0][i] = automata[4][i] = 4;
-    }
 
     for (int i = '0'; i <= '9'; i++)
     {
@@ -435,10 +458,10 @@ void Lexer::initAutomata()
     automata[0]['+'] = 41;
 
     automata[0][','] = 222;
-    automata[0]['{'] = 223;
-    automata[0]['}'] = 224;
-    automata[0]['['] = 225;
-    automata[0][']'] = 226;
+    automata[0]['['] = 223;
+    automata[0][']'] = 224;
+    automata[0]['{'] = 225;
+    automata[0]['}'] = 226;
 
     finite[0] = tLexError;
     finite[1] = tInteger;
@@ -689,9 +712,32 @@ void Lexer::initAutomata()
     finite[224] = tSquareBracketClosed;
     finite[225] = tCurlyBracketOpen;
     finite[226] = tCurlyBracketClosed;
+
+    finite[227] = tIgnore;
+    finite[228] = tIgnore;
+    finite[229] = tIgnore;
+    finite[230] = tIgnore;
+    finite[231] = tDouble;
+
+    finite[232] = tIgnore;
+    finite[233] = tIgnore;
+    finite[234] = tMine;
+
+    finite[235] = tIgnore;
+    finite[236] = tIgnore;
+    finite[237] = tIgnore;
+    finite[238] = tIgnore;
+    finite[239] = tIgnore;
+    finite[240] = tIgnore;
+    finite[241] = tFunction;
+
+    finite[242] = tIgnore;
+    finite[243] = tPlant;
+
+    finite[244] = tTo;
 }
 
-//Metoda ki vrne naslednjo stanje
+// Metoda ki vrne naslednjo stanje
 int Lexer::getNextState(int aState, int aChar) const
 {
     if (aChar == -1)
@@ -702,25 +748,25 @@ int Lexer::getNextState(int aState, int aChar) const
     return automata[aState][aChar];
 }
 
-//Metoda, ki preveri ali je stanje končno
+// Metoda, ki preveri ali je stanje končno
 bool Lexer::isFiniteState(int aState) const
 {
     return finite[aState] != tLexError;
 }
 
-//Metoda, ki pridobi knčno stanje
+// Metoda, ki pridobi knčno stanje
 int Lexer::getFiniteState(int aState) const
 {
     return finite[aState];
 }
 
-//Vrne naslednji char
+// Vrne naslednji char
 int Lexer::peek()
 {
     return input->peek();
 }
 
-//Metoda, ki dobi char
+// Metoda, ki dobi char
 int Lexer::read()
 {
     int temp = input->get();
@@ -733,7 +779,7 @@ int Lexer::read()
     return temp;
 }
 
-//Metoda, ki zajame token
+// Metoda, ki zajame token
 Token Lexer::nextTokenImp()
 {
     int currentState = startState;
@@ -773,13 +819,13 @@ Token Lexer::nextTokenImp()
     while (true);
 }
 
-//Metoda preveri ali je konec fila
+// Metoda preveri ali je konec fila
 bool Lexer::eof()
 {
     return input->peek() == -1;
 }
 
-Lexer::Lexer(std::istream *aInput)
+Lexer::Lexer(std::istream* aInput)
 {
     row = 1;
     col = 1;
@@ -787,19 +833,19 @@ Lexer::Lexer(std::istream *aInput)
     input = aInput;
 }
 
-//Metoda ki vrne naslednji token
+// Metoda ki vrne naslednji token
 Token Lexer::nextToken()
 {
     return lastToken = nextTokenImp();
 }
 
-//Metoda ki vrne trenutni token
+// Metoda ki vrne trenutni token
 Token Lexer::currentToken()
 {
     return lastToken;
 }
 
-//Metoda, ki izpiše vse treminale (za test)
+// Metoda, ki izpiše vse treminale (za test)
 void Lexer::printAllTerminals()
 {
     while (!eof())
@@ -810,18 +856,18 @@ void Lexer::printAllTerminals()
             std::cerr << "Napaka vrstica (" << token.getRow() << ") stolpec (" << token.getCol() << ")\n";
             break;
         }
-        std::cout << "Terminal(" << token.getLexem() << ")\n";
+        std::cout << "Terminal(" << token.getLexem() << ")" << " INDEX(" << token.getToken() << ")\n";
     }
 }
 
-//Metoda, ki vstavi variable v dictionary
-void Lexer::insertVariable(const std::string &name, double value)
+// Metoda, ki vstavi variable v dictionary
+void Lexer::insertVariable(const std::string& name, double value)
 {
     this->dictionary[name] = value;
 }
 
-//Metoda, ki pridobi variable iz dictionary
-double Lexer::getVarValue(std::string &name)
+// Metoda, ki pridobi variable iz dictionary
+double Lexer::getVarValue(std::string& name)
 {
     if (this->dictionary.find(name) != this->dictionary.end())
     {
@@ -834,20 +880,20 @@ double Lexer::getVarValue(std::string &name)
     }
 }
 
-//Metoda, ki posodib variable v dictionary
-void Lexer::updateVarValue(std::string &name, double value)
+// Metoda, ki posodib variable v dictionary
+void Lexer::updateVarValue(std::string& name, double value)
 {
     this->dictionary.at(name) = value;
 }
 
-//Metoda, ki pridobi trenutno pozicijo 
+// Metoda, ki pridobi trenutno pozicijo
 std::streampos Lexer::getPosition()
 {
     return input->tellg();
 }
 
-//Metoda, ki zamenja pozicijo
-void Lexer::changePosition(std::streampos &pos)
+// Metoda, ki zamenja pozicijo
+void Lexer::changePosition(std::streampos& pos)
 {
     input->seekg(pos);
     input->clear();

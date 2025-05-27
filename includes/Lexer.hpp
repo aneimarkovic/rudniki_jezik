@@ -13,14 +13,14 @@
 class Lexer
 {
 private:
-    std::istream *input;
+    std::istream* input;
     Token lastToken;
     int row;
     int col;
     std::map<std::string, double> dictionary;
 
     // const static int maxState = 41;
-    const static int maxState = 226;
+    const static int maxState = 244;
     const static int startState = 0;
     const static int noEdge = -1;
 
@@ -66,7 +66,7 @@ public:
     const static int tFor = 21;
     const static int tEnd = 29;
     const static int tConsole = 36;
-    const static int tOnlyPlus = 37;
+    const static int tOnlyPlus = 41;
 
     const static int tBend = 43;
     const static int tBench = 45;
@@ -79,7 +79,7 @@ public:
 
     const static int tDeepsea = 69;
 
-    const static int tHuman = 74; 
+    const static int tHuman = 74;
 
     const static int tInplace = 81;
     const static int tInsitu = 85;
@@ -124,18 +124,27 @@ public:
     const static int tCurlyBracketOpen = 225;
     const static int tCurlyBracketClosed = 226;
 
+    const static int tDouble = 231;
+
+    const static int tMine = 234;
+    const static int tFunction = 241;
+
+    const static int tPlant = 243;
+
+    const static int tTo = 244;
+
 
     bool eof();
-    Lexer(std::istream *aInput);
+    Lexer(std::istream* aInput);
     Token nextToken();
     Token currentToken();
     void printAllTerminals();
 
-    void insertVariable(const std::string &name, double value);
-    double getVarValue(std::string &name);
-    void updateVarValue(std::string &name, double value);
+    void insertVariable(const std::string& name, double value);
+    double getVarValue(std::string& name);
+    void updateVarValue(std::string& name, double value);
     std::streampos getPosition();
-    void changePosition(std::streampos &pos);
+    void changePosition(std::streampos& pos);
 };
 
 #endif
