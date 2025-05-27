@@ -1,0 +1,145 @@
+/* osnova */
+Begin ::= Start
+        | Function
+        | Assign CommandSet
+        | Non_Assign_Command CommandSet
+        | Expr;
+
+
+BeginPrime ::= CommandSet | Bitwise;
+
+Non_Assign_Command ::= Loop | Print;
+Start ::= TOKEN_MINE STRING "{" Minetype "}";
+
+Minetype ::= SURFACE "{" "[" Landelements "]" "}"
+           | UNDERGROUND "{" "[" Undergroundelements "]" "}"
+           | IN_PLACE "{" "[" Landelements "]" "}"
+           | IN_SITU "{" "[" Landelements "]" "}"
+           | DEEP_SEA "{" "[" Seaelements "]" "}";
+
+/* tipi rudnikov */
+Landelements ::= Landelements_Element Landelements';
+Landelements' ::= "," Landelements_Element Landelements' | ε;
+
+Undergroundelements ::= Undergroundelements_Element Undergroundelements';
+Undergroundelements' ::= "," Undergroundelements_Element Undergroundelements' | ε;
+
+Seaelements ::= Seaelements_Element Seaelements';
+Seaelements' ::= "," Seaelements_Element Seaelements' | ε;
+
+/* tipi elementov */
+/* 
+    LAND ELEMENT DEL
+*/
+Landelements_Element ::= "{" Landelements_Curly_Choice "}" | "[" Landelements_Bracket_Choice "]";
+
+Landelements_Curly_Choice ::= TOKEN_PATH Path_Vsebina
+                            |  TOKEN_RIVER River_Vsebina;
+
+Path_Vsebina ::= Line Lines | Polyline Lines | Bend Lines;
+
+River_Vsebina ::=  Line Lines | Polyline Lines | Bend Lines;
+
+Landelements_Bracket_Choice ::= TOKEN_STRIP Strip_Vsebina
+                            |  TOKEN_BENCH Bench_Vsebina
+                            |  TOKEN_SPOILPIT Spoilpit_Vsebina
+                            |  TOKEN_PLANT Plant_Vsebina
+                            |  TOKEN_WELL Well_Vsebina;
+
+Strip_Vsebina ::= Arbitarraypolygon | Box;
+
+Bench_Vsebina ::= Arbitarraypolygon;
+
+Spoilpit_Vsebina ::= Arbitarraypolygon | Box | Circ;
+
+Plant_Vsebina ::= Arbitarraypolygon | Box | Circ;
+
+Well_Vsebina ::= WELLTYPE Point;
+
+/* 
+    UNDERGROUND ELEMENT DEL
+*/
+Undergroundelements_Element ::= "{" Undergroundelements_Curly_Choice "}" | '[' Undergroundelements_Bracket_Choice ']';
+
+Undergroundelements_Curly_Choice ::= TOKEN_ELEVATOR Elevator_Vsebina
+                                    | TOKEN_OREBED Orebed_Vsebina;
+
+Elevator_Vsebina ::= ELEVATORTYPE | Point;
+
+Orebed_Vsebina ::= Arbitarraypolygon | Box | Circ;
+
+Undergroundelements_Bracket_Choice ::= TOKEN_TUNNEL Tunnel_Vsebina
+                                    |  TOKEN_SHAFT Shaft_Vsebina;
+
+Tunnel_Vsebina ::= Polyline Lines | Line Lines | Bend Lines;
+
+Shaft_Vsebina ::=  Polyline Lines | Line Lines | Bend Lines;
+
+/* 
+    SEA ELEMENT DEL
+*/
+Seaelements_Element ::= "{" Seaelements_Curly_Choice "}";
+
+Seaelements_Curly_Choice ::=  TOKEN_PLATFORM Platform_Vsebina
+                            | TOKEN_PUMP Pump_Vsebina
+                            | TOKEN_RISER Riser_Vsebina;
+
+Platform_Vsebina ::= Arbitarraypolygon | Box | Circ;
+
+Pump_Vsebina ::= Point;
+
+Riser_Vsebina ::= Point;
+
+/* specifika */
+Lines ::= "," "{" STRING Lines_Content "}" Lines | ε;
+
+Lines_Content ::= "(" Lines_Item_Content_After_Paren ")";
+
+Lines_Item_Content_After_Paren ::= "[" Points "]"
+                                 | Point "," Point Lines_Bend_Opt;
+
+Lines_Bend_Opt ::= "," Bitwise | ε;
+
+Arbitarraypolygon ::= TOKEN_POLYGON "(" "[" Points "]" ")";
+Polyline ::= TOKE_POLYLINE "(" "[" Points "]" ")";
+Line ::= TOKEN_LINE "(" Point "," Point ")";
+Box ::= TOKEN_BOX "(" Point "," Point ")";
+Points ::= Point Points';
+Points' ::= "," Point Points' | ε;
+Point ::= TOKEN_POINT "(" Bitwise "," Bitwise ")";
+Bend ::= TOKEN_BEND "(" Point "," Point "," Bitwise ")";
+Circ ::= TOKEN_CIRC "(" Point "," Bitwise ")";
+
+/* tipi */
+PLANTTYPE ::= washing | procesing | storage;
+WELLTYPE ::= monitoring | injection | recovery;
+ELEVATORTYPE ::= human | ore;
+
+/* iz vaj */
+Expr ::= Bitwise;
+Bitwise ::= Additive Bitwise';
+Bitwise' ::= bwand Additive Bitwise' | bwor Additive Bitwise' | ε;
+Additive ::= Multiplicative Additive';
+Additive' ::= plus Multiplicative Additive' | minus Multiplicative Additive' | ε;
+Multiplicative ::= Unary Multiplicative';
+Multiplicative' ::= times Unary Multiplicative' | divide Unary Multiplicative' | ε;
+Unary ::= plus Primary | minus Primary | Primary;
+Primary ::= INT 
+            | hex
+          | variable
+          | FunctionCall
+          | "(" Bitwise ")";
+
+CommandSet ::= Command CommandSet';
+CommandSet' ::= Command CommandSet' | ε;
+Command ::= Loop | Assign | Print;
+Loop ::= "for" "(" Assign "to" Bitwise ")" "begin" BeginPrime "end;";
+Assign ::= TOKEN_DOUBLE variable ":=" Assign_desno;
+Assign_desno ::= Bitwise ";";
+Print ::= "CONSOLE" Bitwise ";";
+
+Function ::= TOKEN_FUNCTION STRING "(" Atribute ")" "{" BeginPrime return Bitwise "}";
+Atribute ::= Bitwise Atribute'; // Simplified
+Atribute' ::= "," Bitwise Atribute' | ε;
+
+FunctionCall ::= "call" STRING "(" Atribute ")";
