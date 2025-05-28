@@ -1,11 +1,10 @@
-MONITORING
 MINE AlphaMine {
     SURFACE {
         [
-            { PATH LINE(POINT(10, 20 + 5), POINT(0x64, 30)) , { width ([(POINT(1,1),POINT(2,2),POINT(3,3))]) } },
+            { PATH LINE(POINT(10, 20 + 5), POINT(#64, 30)) , { width ([POINT(1,1),POINT(2,2),POINT(3,3)]) } },
             [ STRIP POLYGON([POINT(50, 50), POINT(150, 50), POINT(100, 100)]) ],
-            [ WELL INJECTION POINT(200, (150 - 50)) ],
-            { RIVER BEND(POINT(300,100), POINT(350,150), 25), { speed ((POINT(0,0),POINT(1,1),10)) }, { type ((POINT(0,0),POINT(1,1))) } }
+            [ WELL INJECTION POINT(200, 100) ],
+            { RIVER BEND(POINT(300,100), POINT(350,150), 25), { speed (POINT(0,0),POINT(1,1),10) }, { type (POINT(0,0),POINT(1,1)) } }
         ]
     }
 }
@@ -13,27 +12,23 @@ MINE AlphaMine {
 FUNCTION CalculateVolume (length, width, height) {
     DOUBLE volume := length * width * height;
     CONSOLE volume;
-    RETURN volume;
+    RETURN volume
 }
 
-DOUBLE globalVar := 100 * (2 + 3);
-
-CONSOLE ( (CALL CalculateVolume(10, 5, 2)) - globalVar ) & 0xFF | 0xAA;
+DOUBLE globalVar := 100 * 5;
 
 FOR (DOUBLE i := 0; TO 5 - 1)
 BEGIN
     DOUBLE temp := i * globalVar;
     CONSOLE temp;
-    globalVar := globalVar / 2;
+    DOUBLE globalVar := globalVar / 2;
 END;
-
-(0xABC + 0x123) / globalVar;
 
 MINE BetaExtraction {
     UNDERGROUND {
         [
             { ELEVATOR ORE },
-            [ TUNNEL POLYLINE([POINT(0,0), POINT(0,200), POINT(100,300), POINT(150,300)]) , { diameter ((POINT(5,5),POINT(5,5))) } ],
+            [ TUNNEL POLYLINE([POINT(0,0), POINT(0,200), POINT(100,300), POINT(150,300)]) , { diameter (POINT(5,5),POINT(5,5)) } ],
             { OREBED BOX(POINT(20,20), POINT(80,80)) },
             { ELEVATOR POINT(10,10) }
         ]
@@ -41,7 +36,7 @@ MINE BetaExtraction {
 }
 
 FUNCTION SimpleAdd (a, b) {
-    RETURN a + b;
+    RETURN a + b
 }
 
 CONSOLE CALL SimpleAdd(globalVar, 1);
@@ -49,15 +44,15 @@ CONSOLE CALL SimpleAdd(globalVar, 1);
 MINE GammaOffshore {
     DEEPSEA {
         [
-            { PLATFORM CIRC(POINT(500,500), 100) },
+            { PLATFORM CIRCLE(POINT(500,500), 100) },
             { PUMP POINT(510, 510) },
             { RISER POINT(490, 490) }
         ]
     }
 }
 
-FUNCTION CheckStatus () {
-    RETURN 0xOK;
+FUNCTION test () {
+    RETURN #1
 }
 
 MINE DeltaLand {
@@ -65,7 +60,7 @@ MINE DeltaLand {
         [
             [ BENCH POLYGON([POINT(1,1), POINT(2,1), POINT(1,2)]) ],
             [ SPOILPIT BOX(POINT(10,10), POINT(20,20)) ],
-            [ PLANT CIRC(POINT(30,30),5) ] 
+            [ PLANT CIRCLE(POINT(30,30),5) ] 
         ]
     }
 }
