@@ -16,7 +16,7 @@ int main(int argc, char *argv[]) {
         
         std::unique_ptr<ProgramNode> astRoot = parser->getProgramNode();
         if (astRoot) {
-            astRoot->print(std::cout, 0);
+            astRoot->printGeoJSON(std::cout, 0);
         } else {
             std::cout << "AST Root is null even after successful parse." << std::endl;
         }
